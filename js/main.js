@@ -1,6 +1,6 @@
 function getRandomNumber (minNumber, maxNumber) {
     if (minNumber >= 0 && maxNumber >= 0 && minNumber < maxNumber) {
-        randomNumber = Math.random() * (maxNumber-minNumber) + minNumber;
+        let randomNumber = Math.random() * (maxNumber-minNumber) + minNumber;
         return Math.floor(randomNumber);
     }
     return 'Диапазон должен состоять только из положительных чисел, и минимальное число должно быть меньше максимального';
