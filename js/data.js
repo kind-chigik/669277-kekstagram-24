@@ -103,4 +103,4 @@ const generatePhoto = () => {
 };
 
 const arrayPhotos = Array.from({length: LIMIT_PHOTOS}, generatePhoto);
-console.log(arrayPhotos);
+export {arrayPhotos};
