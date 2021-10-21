@@ -1,4 +1,5 @@
 import {arrayPhotos} from './data.js';
+import {onThumbnailsClick} from './big-picture.js';
 
 const templatePicture = document.querySelector('#picture').content;
 const picture = templatePicture.querySelector('.picture');
@@ -16,9 +17,8 @@ randomPictures.forEach((element) => {
     likesPicture.textContent = element.likes;
     const commentsPicture = newPicture.querySelector('.picture__comments');
     commentsPicture.textContent = element.comments.length;
-
+    onThumbnailsClick(imgPicture, element);
     fragment.appendChild(newPicture);
 });
 
 pictures.appendChild(fragment);
-
