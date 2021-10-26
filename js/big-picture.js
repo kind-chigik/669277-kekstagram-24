@@ -1,60 +1,70 @@
-
 const bigPicture = document.querySelector('.big-picture');
 const buttonClosePicture = bigPicture.querySelector('#picture-cancel');
-const blockBigPicture = bigPicture.querySelector('.big-picture__img');
-const imgBigPicture = blockBigPicture.children;
+const imgBigPicture = bigPicture.querySelector('.big-picture__img > img');
+
 const descriptionBigPicture = bigPicture.querySelector('.social__caption');
 const likesBigPicture = document.querySelector('.likes-count');
 
 const counterComments = bigPicture.querySelector('.social__comment-count');
 const loaderComments = bigPicture.querySelector('.comments-loader');
 const countCommentsPicture = bigPicture.querySelector('.comments-count');
-const comment = bigPicture.querySelector('.social__comment');
-const templateComment = comment.cloneNode(true);
+const templateComment = bigPicture.querySelector('.social__comment');
 const blockComments = bigPicture.querySelector('.social__comments');
 
-let fragmentComments = document.createDocumentFragment();
+const fragmentComments = document.createDocumentFragment();
 
-const getComments = (objectPhoto) => {
-  objectPhoto.comments.forEach((comment) => {
-    const newComment = templateComment.cloneNode(true);
-    blockComments.innerHTML= '';
-    const avatar = newComment.querySelector('.social__picture');
-    avatar.src = comment.avatar;
-    avatar.alt = comment.name;
-    const textComment = newComment.querySelector('.social__text');
-    textComment.textContent = comment.message;
-    fragmentComments.appendChild(newComment);
-  });
+const renderComment = (comment) => {
+  const newComment = templateComment.cloneNode(true);
+  const avatar = newComment.querySelector('.social__picture');
+  avatar.src = comment.avatar;
+  avatar.alt = comment.name;
+  const textComment = newComment.querySelector('.social__text');
+  textComment.textContent = comment.message;
+  return newComment;
 };
 
-const onThumbnailsClick = (picture, objectPhoto) => {
-  picture.addEventListener('click', function () {
-    bigPicture.classList.remove('hidden');
-    counterComments.classList.add('hidden');
-    loaderComments.classList.add('hidden');
-    document.body.classList.add('modal-open');
-
-    imgBigPicture[0].src = objectPhoto.url;
-    imgBigPicture[0].alt = objectPhoto.description;
-    likesBigPicture.textContent = objectPhoto.likes;
-    descriptionBigPicture.textContent = objectPhoto.description;
-    countCommentsPicture.textContent = objectPhoto.comments.length;
-    getComments(objectPhoto);
-    blockComments.appendChild(fragmentComments);
+const getComments = (comments) => {
+  comments.forEach((comment) => {
+    fragmentComments.appendChild(renderComment(comment));
   });
-
-  buttonClosePicture.addEventListener('click', () => {
-    bigPicture.classList.add('hidden');
-    document.body.classList.remove('modal-open');
-  });
-
-  document.addEventListener('keydown', (evt) => {
-    if (evt.key === 'Escape') {
-      bigPicture.classList.add('hidden');
-      document.body.classList.remove('modal-open');
-    }
-  });
+  blockComments.innerHTML= '';
+  blockComments.appendChild(fragmentComments);
 };
 
-export {onThumbnailsClick};
+const closeBigPicture = () => {
+  bigPicture.classList.add('hidden');
+  document.body.classList.remove('modal-open');
+};
+
+const onEscKeyDown = (evt) => {
+  if (evt.key === 'Escape' || evt.key === 'Esc') {
+    closeBigPicture();
+    document.removeEventListener('keydown', onEscKeyDown);
+  }
+};
+
+const onButtonCloseClick = () => {
+  closeBigPicture();
+  document.removeEventListener('keydown', onEscKeyDown);
+};
+
+buttonClosePicture.addEventListener('click', onButtonCloseClick);
+
+const showBigPicture = (data) => {
+  bigPicture.classList.remove('hidden');
+  counterComments.classList.add('hidden');
+  loaderComments.classList.add('hidden');
+  document.body.classList.add('modal-open');
+
+  imgBigPicture.src = data.url;
+  imgBigPicture.alt = data.description;
+  likesBigPicture.textContent = data.likes;
+  descriptionBigPicture.textContent = data.description;
+  countCommentsPicture.textContent = data.comments.length;
+
+  getComments(data.comments);
+
+  document.addEventListener('keydown', onEscKeyDown);
+};
+
+export {showBigPicture};
