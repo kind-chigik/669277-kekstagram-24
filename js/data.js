@@ -69,7 +69,7 @@ const getUniqueNumber = (min, max) => {
 };
 
 const getComment = () => {
-    const quantityComments = getRandomNumber(1, 3);
+    const quantityComments = getRandomNumber(1, 20);
     const arrayComments = [];
     for (let i = 0; i <= quantityComments; i++) {
         const idComment = getRandomNumber(1, 25);

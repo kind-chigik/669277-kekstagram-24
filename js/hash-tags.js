@@ -42,7 +42,7 @@ buttonHashtags.addEventListener('input', () => {
   }
 
   arrayHashtags.forEach((element) => {
-    if (!reForHashtags.test(element) && !isStartNoHashtag && !isOnlyLattice) {
+    if (!reForHashtags.test(element) && !isStartNoHashtag && !isOnlyLattice && !isHashtagTooLong) {
       buttonHashtags.setCustomValidity('Хэш-тег должен содержать только буквы и цифры');
     }
   });
