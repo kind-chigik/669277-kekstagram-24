@@ -1,5 +1,5 @@
-import {arrayPhotos} from './data.js';
-import {showBigPicture} from './big-picture.js';
+import {arrayPhotos} from '../data.js';
+import {showBigPicture} from '../pictures-users/big-picture.js';
 
 const templatePicture = document.querySelector('#picture').content;
 const picture = templatePicture.querySelector('.picture');
