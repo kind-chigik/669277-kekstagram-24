@@ -5,6 +5,7 @@ const formImageUpload = document.querySelector('.img-upload__form');
 const buttonUpload = formImageUpload.querySelector('#upload-file');
 const formEditImage = formImageUpload.querySelector('.img-upload__overlay');
 const buttonClose = formImageUpload.querySelector('#upload-cancel');
+const levelEffects = formImageUpload.querySelector('.img-upload__effect-level');
 
 const closeWindowTunning = () => {
   formEditImage.classList.add('hidden');
@@ -31,6 +32,7 @@ const onButtonCLoseClick = () => {
 const openWindowTunning = () => {
   formEditImage.classList.remove('hidden');
   document.body.classList.add('modal-open');
+  levelEffects.classList.add('hidden');
 
   document.addEventListener('keydown', onWindowKeydownEsc);
   buttonClose.addEventListener('click', onButtonCLoseClick);
@@ -39,4 +41,3 @@ const openWindowTunning = () => {
 buttonUpload.addEventListener('change', () => {
   openWindowTunning();
 });
-
