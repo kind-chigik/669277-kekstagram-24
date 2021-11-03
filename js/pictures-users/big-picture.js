@@ -12,6 +12,7 @@ const countCommentsPicture = bigPicture.querySelector('.comments-count');
 const templateComment = bigPicture.querySelector('.social__comment');
 const blockComments = bigPicture.querySelector('.social__comments');
 const fragmentComments = document.createDocumentFragment();
+const SHOW_COMMENTS = 5;
 let step = 5;
 
 const renderComment = (comment) => {
@@ -33,18 +34,18 @@ const getCountShowedComment = (allComments) => {
 const onLoadClick = () => {
   const allComments = bigPicture.querySelectorAll('.social__comment');
   Array.from(allComments);
-  if (allComments.length <= step + 5) {
+  if (allComments.length <= step + SHOW_COMMENTS) {
     loaderComments.classList.add('hidden');
   } else {
     loaderComments.classList.remove('hidden');
   }
   for (let i = 0; i < allComments.length; i++) {
-    if (i >= step && i < step + 5) {
+    if (i >= step && i < step + SHOW_COMMENTS) {
       allComments[i].classList.remove('hidden');
     }
   }
   getCountShowedComment(allComments);
-  step += 5;
+  step += SHOW_COMMENTS;
 };
 
 const getComments = (comments) => {
@@ -95,7 +96,7 @@ const onButtonCloseClick = () => {
 };
 
 const showBigPicture = (data) => {
-  step = 5;
+  step = SHOW_COMMENTS;
   bigPicture.classList.remove('hidden');
   document.body.classList.add('modal-open');
   imgBigPicture.src = data.url;
