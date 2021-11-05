@@ -1,6 +1,5 @@
 import {buttonHashtags} from '../load-new-picture/hash-tags.js';
 import {comments} from '../load-new-picture/comments.js';
-import '/nouislider/nouislider.js';
 
 const formImageUpload = document.querySelector('.img-upload__form');
 const buttonUpload = formImageUpload.querySelector('#upload-file');
@@ -10,6 +9,8 @@ const previewImage = formImageUpload.querySelector('.img-upload__preview > img')
 
 let currentValueScale = 100;
 const STEP_SCALE = 25;
+const MAX_VALUE_SCALE = 100;
+const MIN_VALUE_SCALE = 25;
 const scale = formImageUpload.querySelector('.scale__control--value');
 const buttonReduceScale = formImageUpload.querySelector('.scale__control--smaller');
 const buttonIncreaseScale = formImageUpload.querySelector('.scale__control--bigger');
@@ -40,18 +41,18 @@ noUiSlider.create(sliderLevelEffects, {
 
 const getScale = () => {
   scale.value = `${currentValueScale} %`;
-  previewImage.style.transform = `scale(${currentValueScale / 100})`;
+  previewImage.style.transform = `scale(${currentValueScale / MAX_VALUE_SCALE})`;
 };
 
 const onButtonReduceClick = () => {
-  if (currentValueScale <= 100 && currentValueScale > 25) {
+  if (currentValueScale <= MAX_VALUE_SCALE && currentValueScale > MIN_VALUE_SCALE) {
     currentValueScale -= STEP_SCALE;
     getScale();
   }
 };
 
 const onButtonIncreaseClick = () => {
-  if (currentValueScale >= 25 && currentValueScale < 100) {
+  if (currentValueScale >= MIN_VALUE_SCALE && currentValueScale < MAX_VALUE_SCALE) {
     currentValueScale += STEP_SCALE;
     getScale();
   }
@@ -141,7 +142,7 @@ const closeWindowTunning = () => {
   formEditImage.classList.add('hidden');
   document.body.classList.remove('modal-open');
   buttonUpload.value = '';
-  currentValueScale = 100;
+  currentValueScale = MAX_VALUE_SCALE;
   previewImage.style = '';
   previewImage.classList.value = 'effects__preview--none';
 };
@@ -156,6 +157,7 @@ const onWindowKeydownEsc = (evt) => {
     document.removeEventListener('keydown', onWindowKeydownEsc);
     buttonReduceScale.removeEventListener('click', onButtonReduceClick);
     buttonIncreaseScale.removeEventListener('click', onButtonIncreaseClick);
+    sliderLevelEffects.noUiSlider.destroy();
   }
 };
 
