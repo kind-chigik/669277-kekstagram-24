@@ -11,6 +11,8 @@ let currentValueScale = 100;
 const STEP_SCALE = 25;
 const MAX_VALUE_SCALE = 100;
 const MIN_VALUE_SCALE = 25;
+const KEY_ESCAPE = 'Escape';
+const KEY_ESC = 'Esc';
 const scale = formImageUpload.querySelector('.scale__control--value');
 const buttonReduceScale = formImageUpload.querySelector('.scale__control--smaller');
 const buttonIncreaseScale = formImageUpload.querySelector('.scale__control--bigger');
@@ -21,14 +23,33 @@ const effectsList = formImageUpload.querySelector('.effects__list');
 const levelEffects = formImageUpload.querySelector('.img-upload__effect-level');
 
 const effects = ['none', 'chrome', 'sepia', 'marvin', 'phobos', 'heat'];
-const effectsClasses = [
-  'effects__preview--none',
-  'effects__preview--chrome',
-  'effects__preview--sepia',
-  'effects__preview--marvin',
-  'effects__preview--phobos',
-  'effects__preview--heat',
-];
+const sliderVariants = {
+  'effects__preview--chrome': {
+    min: 0,
+    max: 1,
+    step: 0.1,
+  },
+  'effects__preview--sepia': {
+    min: 0,
+    max: 1,
+    step: 0.1,
+  },
+  'effects__preview--marvin': {
+    min: 0,
+    max: 100,
+    step: 1,
+  },
+  'effects__preview--phobos': {
+    min: 0,
+    max: 3,
+    step: 0.1,
+  },
+  'effects__preview--heat': {
+    min: 1,
+    max: 3,
+    step: 0.1,
+  },
+};
 
 noUiSlider.create(sliderLevelEffects, {
   range: {
@@ -82,58 +103,25 @@ const addEffect = (evt) => {
   if (evt.target.closest('.effects__radio')) {
     for (let i = 0; i < effects.length; i++) {
       if (evt.target.value === effects[i]) {
-        previewImage.classList.add(effectsClasses[i]);
+        previewImage.classList.add(`effects__preview--${effects[i]}`);
       } else {
-        previewImage.classList.remove(effectsClasses[i]);
+        previewImage.classList.remove(`effects__preview--${effects[i]}`);
       }
-    }
 
-    if (previewImage.classList.value === 'effects__preview--chrome' || previewImage.classList.value === 'effects__preview--sepia') {
-      sliderLevelEffects.noUiSlider.updateOptions({
-        range: {
-          min: 0,
-          max: 1,
-        },
-        step: 0.1,
-      });
+      if (previewImage.classList.value === `effects__preview--${effects[i]}`) {
+        sliderLevelEffects.noUiSlider.updateOptions({
+          range: {
+            min: sliderVariants[previewImage.classList.value].min,
+            max: sliderVariants[previewImage.classList.value].max,
+          },
+          step: sliderVariants[previewImage.classList.value].step,
+        });
+      }
       sliderLevelEffects.noUiSlider.set(0);
-    }
 
-    if (previewImage.classList.value === 'effects__preview--marvin') {
-      sliderLevelEffects.noUiSlider.updateOptions({
-        range: {
-          min: 0,
-          max: 100,
-        },
-        step: 1,
-      });
-      sliderLevelEffects.noUiSlider.set(0);
-    }
-
-    if (previewImage.classList.value === 'effects__preview--phobos') {
-      sliderLevelEffects.noUiSlider.updateOptions({
-        range: {
-          min: 0,
-          max: 3,
-        },
-        step: 0.1,
-      });
-      sliderLevelEffects.noUiSlider.set(0);
-    }
-
-    if (previewImage.classList.value === 'effects__preview--heat') {
-      sliderLevelEffects.noUiSlider.updateOptions({
-        range: {
-          min: 1,
-          max: 3,
-        },
-        step: 0.1,
-      });
-      sliderLevelEffects.noUiSlider.set(0);
-    }
-
-    if (previewImage.classList.value === 'effects__preview--none') {
-      levelEffects.classList.add('hidden');
+      if (previewImage.classList.value === 'effects__preview--none') {
+        levelEffects.classList.add('hidden');
+      }
     }
   }
 };
@@ -148,7 +136,7 @@ const closeWindowTunning = () => {
 };
 
 const onWindowKeydownEsc = (evt) => {
-  if (evt.key === 'Escape' || evt.key === 'Esc') {
+  if (evt.key === KEY_ESCAPE || evt.key === KEY_ESC) {
     evt.preventDefault();
     if (buttonHashtags === document.activeElement || comments === document.activeElement) {
       return;
