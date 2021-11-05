@@ -6,10 +6,7 @@ export const getRandomNumber = (minNumber, maxNumber) => {
   return -1;
 };
 
-export const getRandomArrayElement = (elements) => {
-  return elements[getRandomNumber(0, elements.length - 1)];
-};
+export const getRandomArrayElement = (elements) => elements[getRandomNumber(0, elements.length - 1)];
 
-export const checkLengthString = (string, maxLength) => {
-  return (string.length <= maxLength);
-};
+export const checkLengthString = (string, maxLength) =>(string.length <= maxLength);
+
