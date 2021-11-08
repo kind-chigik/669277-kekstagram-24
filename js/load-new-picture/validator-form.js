@@ -1,11 +1,23 @@
 import {buttonHashtags} from '../load-new-picture/hash-tags.js';
 import {comments} from '../load-new-picture/comments.js';
+import {request} from '../loader.js';
+import {createBlockMessage, addBlockMessage} from '../helper.js';
 
 const formImageUpload = document.querySelector('.img-upload__form');
 const buttonUpload = formImageUpload.querySelector('#upload-file');
 const formEditImage = formImageUpload.querySelector('.img-upload__overlay');
 const buttonClose = formImageUpload.querySelector('#upload-cancel');
 const previewImage = formImageUpload.querySelector('.img-upload__preview > img');
+const hashtags = formImageUpload.querySelector('.text__hashtags');
+const descriptionImage = formImageUpload.querySelector('.text__description');
+
+const templateSuccess = document.querySelector('#success').content;
+const success = templateSuccess.querySelector('.success');
+const blockSuccess = createBlockMessage(success, 'success-load');
+
+const templateError = document.querySelector('#error').content;
+const error = templateError.querySelector('.error');
+const blockError = createBlockMessage(error, 'error-load-image');
 
 let currentValueScale = 100;
 const STEP_SCALE = 25;
@@ -58,6 +70,7 @@ noUiSlider.create(sliderLevelEffects, {
   },
   start: 0,
   step: 0.1,
+  connect: 'lower',
 });
 
 const getScale = () => {
@@ -107,21 +120,20 @@ const addEffect = (evt) => {
       } else {
         previewImage.classList.remove(`effects__preview--${effects[i]}`);
       }
+    }
 
-      if (previewImage.classList.value === `effects__preview--${effects[i]}`) {
-        sliderLevelEffects.noUiSlider.updateOptions({
-          range: {
-            min: sliderVariants[previewImage.classList.value].min,
-            max: sliderVariants[previewImage.classList.value].max,
-          },
-          step: sliderVariants[previewImage.classList.value].step,
-        });
-      }
-      sliderLevelEffects.noUiSlider.set(0);
-
-      if (previewImage.classList.value === 'effects__preview--none') {
-        levelEffects.classList.add('hidden');
-      }
+    if (previewImage.classList.value !== 'effects__preview--none') {
+      sliderLevelEffects.noUiSlider.updateOptions({
+        range: {
+          min: sliderVariants[previewImage.classList.value].min,
+          max: sliderVariants[previewImage.classList.value].max,
+        },
+        step: sliderVariants[previewImage.classList.value].step,
+      });
+      sliderLevelEffects.noUiSlider.set(sliderVariants[previewImage.classList.value].max);
+    } else {
+      levelEffects.classList.add('hidden');
+      previewImage.style.filter = '';
     }
   }
 };
@@ -130,15 +142,26 @@ const closeWindowTunning = () => {
   formEditImage.classList.add('hidden');
   document.body.classList.remove('modal-open');
   buttonUpload.value = '';
+  scale.value = `${MAX_VALUE_SCALE}%`;
   currentValueScale = MAX_VALUE_SCALE;
   previewImage.style = '';
   previewImage.classList.value = 'effects__preview--none';
+  hashtags.value = '';
+  descriptionImage.value = '';
 };
 
 const onWindowKeydownEsc = (evt) => {
   if (evt.key === KEY_ESCAPE || evt.key === KEY_ESC) {
     evt.preventDefault();
     if (buttonHashtags === document.activeElement || comments === document.activeElement) {
+      return;
+    }
+    if (!blockSuccess.classList.contains('hidden')) {
+      blockSuccess.classList.add('hidden');
+      return;
+    }
+    if (!blockError.classList.contains('hidden')) {
+      blockError.classList.add('hidden');
       return;
     }
     closeWindowTunning();
@@ -173,4 +196,21 @@ const openWindowTunning = () => {
 
 buttonUpload.addEventListener('change', () => {
   openWindowTunning();
+});
+
+const onSuccess = () => {
+  closeWindowTunning();
+  addBlockMessage(blockSuccess);
+};
+
+const onError = () => {
+  closeWindowTunning();
+  addBlockMessage(blockError);
+};
+
+formImageUpload.addEventListener('submit', (evt) => {
+  evt.preventDefault();
+
+  const formData = new FormData(evt.target);
+  request(onSuccess, onError, 'POST', formData);
 });
