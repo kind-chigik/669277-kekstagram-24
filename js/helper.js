@@ -10,3 +10,22 @@ export const getRandomArrayElement = (elements) => elements[getRandomNumber(0, e
 
 export const checkLengthString = (string, maxLength) =>(string.length <= maxLength);
 
+export const createBlockMessage = (elementForClone, id) => {
+  const blockMessage = elementForClone.cloneNode(true);
+  blockMessage.setAttribute('id', id);
+  blockMessage.classList.add('hidden');
+  document.body.appendChild(blockMessage);
+  return blockMessage;
+};
+
+export const addBlockMessage = (element) => {
+  element.classList.remove('hidden');
+  element.addEventListener('click', (evt) => {
+    if (evt.target.closest('.error__button')) {
+      element.classList.add('hidden');
+    }
+    if (!evt.target.closest('.error__inner')) {
+      element.classList.add('hidden');
+    }
+  });
+};
