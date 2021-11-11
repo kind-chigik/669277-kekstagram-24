@@ -1,7 +1,9 @@
 // Функция взята из интернета и доработана
 // Источник - https://www.freecodecamp.org/news/javascript-debounce-example
 
-const debounce = (callback, timeoutDelay = 500) => {
+const DELAY = 500;
+
+const debounce = (callback, timeoutDelay = DELAY) => {
   let timeoutId;
 
   return (...rest) => {
