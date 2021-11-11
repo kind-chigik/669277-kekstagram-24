@@ -18,8 +18,6 @@ export const shuffleArray = (array) => {
 
 export const getRandomArrayElement = (elements) => elements[getRandomNumber(0, elements.length - 1)];
 
-export const checkLengthString = (string, maxLength) =>(string.length <= maxLength);
-
 export const createBlockMessage = (elementForClone, id) => {
   const blockMessage = elementForClone.cloneNode(true);
   blockMessage.id = id;
