@@ -1,5 +1,5 @@
-const comments = document.querySelector('.text__description');
 const MAX_CHAR_COMMENT = 140;
+const comments = document.querySelector('.text__description');
 
 comments.addEventListener('input', () => {
   const text = comments.value;

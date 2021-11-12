@@ -1,9 +1,12 @@
+const SHOW_COMMENTS = 5;
+let step = 5;
+
 const bigPicture = document.querySelector('.big-picture');
 const buttonClosePicture = bigPicture.querySelector('#picture-cancel');
 const imgBigPicture = bigPicture.querySelector('.big-picture__img > img');
 
 const descriptionBigPicture = bigPicture.querySelector('.social__caption');
-const likesBigPicture = document.querySelector('.likes-count');
+const likesBigPicture = bigPicture.querySelector('.likes-count');
 
 const counterComments = bigPicture.querySelector('.social__comment-count');
 const showedCommentsCount = counterComments.querySelector('.showed-comments-count');
@@ -12,8 +15,6 @@ const countCommentsPicture = bigPicture.querySelector('.comments-count');
 const templateComment = bigPicture.querySelector('.social__comment');
 const blockComments = bigPicture.querySelector('.social__comments');
 const fragmentComments = document.createDocumentFragment();
-const SHOW_COMMENTS = 5;
-let step = 5;
 
 const renderComment = (comment) => {
   const newComment = templateComment.cloneNode(true);

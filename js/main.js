@@ -1,17 +1,16 @@
-import './data.js';
 import {renderPhotos, sortPictures} from './pictures-users/thumbnails.js';
 import './load-new-picture/validator-form.js';
 import {request} from './loader.js';
 import {createBlockMessage, addBlockMessage} from './helper.js';
 import {debounce} from './utils/debounce.js';
 
-const templateError = document.querySelector('#error').content;
-const error = templateError.querySelector('.error');
 const ERROR_MESSAGE = 'Ошибка загрузки изображений';
 const ERROR_TEXT_BUTTON = 'Ужасно';
-const filters = document.querySelector('.img-filters');
-
 let photos = [];
+
+const templateError = document.querySelector('#error').content;
+const error = templateError.querySelector('.error');
+const filters = document.querySelector('.img-filters');
 
 const errorLoadImages = createBlockMessage(error, 'error-load-images');
 const errorLoadMessage = errorLoadImages.querySelector('.error__title');
