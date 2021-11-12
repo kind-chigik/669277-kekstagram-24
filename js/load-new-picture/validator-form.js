@@ -3,36 +3,14 @@ import {comments} from '../load-new-picture/comments.js';
 import {request} from '../loader.js';
 import {createBlockMessage, addBlockMessage} from '../helper.js';
 
-const formImageUpload = document.querySelector('.img-upload__form');
-const buttonUpload = formImageUpload.querySelector('#upload-file');
-const formEditImage = formImageUpload.querySelector('.img-upload__overlay');
-const buttonClose = formImageUpload.querySelector('#upload-cancel');
-const previewImage = formImageUpload.querySelector('.img-upload__preview > img');
-const hashtags = formImageUpload.querySelector('.text__hashtags');
-const descriptionImage = formImageUpload.querySelector('.text__description');
-
-const templateSuccess = document.querySelector('#success').content;
-const success = templateSuccess.querySelector('.success');
-const blockSuccess = createBlockMessage(success, 'success-load');
-
-const templateError = document.querySelector('#error').content;
-const error = templateError.querySelector('.error');
-const blockError = createBlockMessage(error, 'error-load-image');
-
-let currentValueScale = 100;
 const STEP_SCALE = 25;
 const MAX_VALUE_SCALE = 100;
 const MIN_VALUE_SCALE = 25;
 const KEY_ESCAPE = 'Escape';
 const KEY_ESC = 'Esc';
-const scale = formImageUpload.querySelector('.scale__control--value');
-const buttonReduceScale = formImageUpload.querySelector('.scale__control--smaller');
-const buttonIncreaseScale = formImageUpload.querySelector('.scale__control--bigger');
+const FILE_TYPES = ['jpg', 'jpeg', 'png'];
 
-const sliderLevelEffects = formImageUpload.querySelector('.effect-level__slider');
-const effectLevel = formImageUpload.querySelector('.effect-level__value');
-const effectsList = formImageUpload.querySelector('.effects__list');
-const levelEffects = formImageUpload.querySelector('.img-upload__effect-level');
+let currentValueScale = 100;
 
 const effects = ['none', 'chrome', 'sepia', 'marvin', 'phobos', 'heat'];
 const sliderVariants = {
@@ -62,6 +40,31 @@ const sliderVariants = {
     step: 0.1,
   },
 };
+
+const formImageUpload = document.querySelector('.img-upload__form');
+const buttonUpload = formImageUpload.querySelector('#upload-file');
+const formEditImage = formImageUpload.querySelector('.img-upload__overlay');
+const buttonClose = formImageUpload.querySelector('#upload-cancel');
+const previewImage = formImageUpload.querySelector('.img-upload__preview > img');
+const hashtags = formImageUpload.querySelector('.text__hashtags');
+const descriptionImage = formImageUpload.querySelector('.text__description');
+
+const templateSuccess = document.querySelector('#success').content;
+const success = templateSuccess.querySelector('.success');
+const blockSuccess = createBlockMessage(success, 'success-load');
+
+const templateError = document.querySelector('#error').content;
+const error = templateError.querySelector('.error');
+const blockError = createBlockMessage(error, 'error-load-image');
+
+const scale = formImageUpload.querySelector('.scale__control--value');
+const buttonReduceScale = formImageUpload.querySelector('.scale__control--smaller');
+const buttonIncreaseScale = formImageUpload.querySelector('.scale__control--bigger');
+
+const sliderLevelEffects = formImageUpload.querySelector('.effect-level__slider');
+const effectLevel = formImageUpload.querySelector('.effect-level__value');
+const effectsList = formImageUpload.querySelector('.effects__list');
+const levelEffects = formImageUpload.querySelector('.img-upload__effect-level');
 
 noUiSlider.create(sliderLevelEffects, {
   range: {
@@ -183,6 +186,12 @@ const openWindowTunning = () => {
   formEditImage.classList.remove('hidden');
   document.body.classList.add('modal-open');
   levelEffects.classList.add('hidden');
+  const file = buttonUpload.files[0];
+  const fileName = file.name.toLowerCase();
+  const matchFormatFile = FILE_TYPES.some((item) => fileName.endsWith(item));
+  if (matchFormatFile) {
+    previewImage.src = URL.createObjectURL(file);
+  }
 
   buttonReduceScale.addEventListener('click', onButtonReduceClick);
   buttonIncreaseScale.addEventListener('click', onButtonIncreaseClick);
