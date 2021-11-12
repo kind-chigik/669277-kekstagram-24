@@ -16,8 +16,6 @@ export const shuffleArray = (array) => {
   return array;
 };
 
-export const getRandomArrayElement = (elements) => elements[getRandomNumber(0, elements.length - 1)];
-
 export const createBlockMessage = (elementForClone, id) => {
   const blockMessage = elementForClone.cloneNode(true);
   blockMessage.id = id;
