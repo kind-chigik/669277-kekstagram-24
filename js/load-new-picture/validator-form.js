@@ -46,9 +46,9 @@ const buttonUpload = formImageUpload.querySelector('#upload-file');
 const formEditImage = formImageUpload.querySelector('.img-upload__overlay');
 const buttonClose = formImageUpload.querySelector('#upload-cancel');
 const previewImage = formImageUpload.querySelector('.img-upload__preview > img');
+
 const hashtags = formImageUpload.querySelector('.text__hashtags');
 const descriptionImage = formImageUpload.querySelector('.text__description');
-
 const templateSuccess = document.querySelector('#success').content;
 const success = templateSuccess.querySelector('.success');
 const blockSuccess = createBlockMessage(success, 'success-load');
@@ -65,6 +65,7 @@ const sliderLevelEffects = formImageUpload.querySelector('.effect-level__slider'
 const effectLevel = formImageUpload.querySelector('.effect-level__value');
 const effectsList = formImageUpload.querySelector('.effects__list');
 const levelEffects = formImageUpload.querySelector('.img-upload__effect-level');
+const effectNone = formImageUpload.querySelector('#effect-none');
 
 noUiSlider.create(sliderLevelEffects, {
   range: {
@@ -149,6 +150,7 @@ const closeWindowTunning = () => {
   currentValueScale = MAX_VALUE_SCALE;
   previewImage.style = '';
   previewImage.classList.value = 'effects__preview--none';
+  effectNone.checked = true;
   hashtags.value = '';
   descriptionImage.value = '';
 };
