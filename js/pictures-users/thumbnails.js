@@ -60,9 +60,9 @@ const renderPhotos = (arrayPhotos) => {
   });
   const allPistures = pictures.querySelectorAll('.picture');
   if (allPistures.length > 0) {
-    for (let i = 0; i < allPistures.length; i++) {
-      pictures.removeChild(allPistures[i]);
-    }
+    allPistures.forEach((element) => {
+      pictures.removeChild(element);
+    });
   }
   pictures.appendChild(fragment);
 };
