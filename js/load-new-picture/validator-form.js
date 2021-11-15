@@ -1,13 +1,11 @@
 import {buttonHashtags} from '../load-new-picture/hash-tags.js';
 import {comments} from '../load-new-picture/comments.js';
 import {request} from '../loader.js';
-import {createBlockMessage, addBlockMessage} from '../helper.js';
+import {isKeyEsс, createBlockMessage, addBlockMessage} from '../helper.js';
 
 const STEP_SCALE = 25;
 const MAX_VALUE_SCALE = 100;
 const MIN_VALUE_SCALE = 25;
-const KEY_ESCAPE = 'Escape';
-const KEY_ESC = 'Esc';
 const FILE_TYPES = ['jpg', 'jpeg', 'png'];
 
 let currentValueScale = 100;
@@ -152,11 +150,13 @@ const closeWindowTunning = () => {
   previewImage.classList.value = 'effects__preview--none';
   effectNone.checked = true;
   hashtags.value = '';
+  hashtags.setCustomValidity('');
   descriptionImage.value = '';
+  descriptionImage.setCustomValidity('');
 };
 
 const onWindowKeydownEsc = (evt) => {
-  if (evt.key === KEY_ESCAPE || evt.key === KEY_ESC) {
+  if (isKeyEsс(evt)) {
     evt.preventDefault();
     if (buttonHashtags === document.activeElement || comments === document.activeElement) {
       return;
@@ -173,7 +173,6 @@ const onWindowKeydownEsc = (evt) => {
     document.removeEventListener('keydown', onWindowKeydownEsc);
     buttonReduceScale.removeEventListener('click', onButtonReduceClick);
     buttonIncreaseScale.removeEventListener('click', onButtonIncreaseClick);
-    sliderLevelEffects.noUiSlider.destroy();
   }
 };
 
