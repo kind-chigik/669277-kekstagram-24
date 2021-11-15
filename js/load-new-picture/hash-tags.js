@@ -1,8 +1,7 @@
-const buttonHashtags = document.querySelector('.text__hashtags');
-const reForHashtags = /^#[A-Za-zА-Яа-яЁё0-9]{1,19}$/;
 const MAX_LENGTH_HASHTAG = 20;
 const MAX_HASHTAGS = 5;
-
+const buttonHashtags = document.querySelector('.text__hashtags');
+const reForHashtags = /^#[A-Za-zА-Яа-яЁё0-9]{1,19}$/;
 
 buttonHashtags.addEventListener('input', () => {
   const text = buttonHashtags.value;
@@ -12,6 +11,10 @@ buttonHashtags.addEventListener('input', () => {
   if (arrayHashtags.length === 0) {
     return;
   }
+  if (buttonHashtags.value === '') {
+    return;
+  }
+
   const isStartNoHashtag = arrayHashtags.some((item) => item[0] !== '#');
   if (isStartNoHashtag) {
     buttonHashtags.setCustomValidity('Хэш-тег должен начинаться с #');
