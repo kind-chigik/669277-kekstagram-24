@@ -1,3 +1,5 @@
+import {isKeyEsс} from '../helper.js';
+
 const SHOW_COMMENTS = 5;
 let step = 5;
 
@@ -66,11 +68,11 @@ const getComments = (comments) => {
   Array.from(allComments);
 
   if (allComments.length > step) {
-    for (let i = 0; i < allComments.length; i++) {
+    allComments.forEach((element, i) => {
       if (i >= step) {
-        allComments[i].classList.add('hidden');
+        element.classList.add('hidden');
       }
-    }
+    });
     loaderComments.addEventListener('click', onLoadClick);
   }
 
@@ -85,7 +87,7 @@ const closeBigPicture = () => {
 };
 
 const onEscKeyDown = (evt) => {
-  if (evt.key === 'Escape' || evt.key === 'Esc') {
+  if (isKeyEsс(evt)) {
     closeBigPicture();
     document.removeEventListener('keydown', onEscKeyDown);
   }
