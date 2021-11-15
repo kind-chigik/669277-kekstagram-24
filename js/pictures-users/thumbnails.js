@@ -1,13 +1,14 @@
 import {showBigPicture} from '../pictures-users/big-picture.js';
 import {shuffleArray} from '../helper.js';
 
+const MAX_RANDOM_PHOTO = 10;
+const VALUE_FROM = 0;
+
 const templatePicture = document.querySelector('#picture').content;
 const picture = templatePicture.querySelector('.picture');
 const pictures = document.querySelector('.pictures');
-
 const filterPicture = document.querySelector('.img-filters__form');
-const MAX_RANDOM_PHOTO = 10;
-const VALUE_FROM = 0;
+
 const fragment = document.createDocumentFragment();
 
 const addActiveClass = (evt) => {
@@ -59,9 +60,9 @@ const renderPhotos = (arrayPhotos) => {
   });
   const allPistures = pictures.querySelectorAll('.picture');
   if (allPistures.length > 0) {
-    for (let i = 0; i < allPistures.length; i++) {
-      pictures.removeChild(allPistures[i]);
-    }
+    allPistures.forEach((element) => {
+      pictures.removeChild(element);
+    });
   }
   pictures.appendChild(fragment);
 };

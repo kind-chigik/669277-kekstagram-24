@@ -1,3 +1,6 @@
+const KEY_ESCAPE = 'Escape';
+const KEY_ESC = 'Esc';
+
 export const getRandomNumber = (minNumber, maxNumber) => {
   if (minNumber >= 0 && minNumber < maxNumber) {
     const randomNumber = Math.random() * (maxNumber-minNumber) + minNumber;
@@ -15,8 +18,6 @@ export const shuffleArray = (array) => {
   }
   return array;
 };
-
-export const getRandomArrayElement = (elements) => elements[getRandomNumber(0, elements.length - 1)];
 
 export const createBlockMessage = (elementForClone, id) => {
   const blockMessage = elementForClone.cloneNode(true);
@@ -38,3 +39,4 @@ export const addBlockMessage = (element) => {
   });
 };
 
+export const isKeyEsс = (evt) => evt.key === KEY_ESCAPE || evt.key === KEY_ESC;
